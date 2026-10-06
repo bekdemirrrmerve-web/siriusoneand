@@ -1,0 +1,16 @@
+{
+  "name": "SIRIUS ONE",
+  "short_name": "Sirius",
+  "description": "Premium Kişisel AI Asistan",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#050812",
+  "theme_color": "#6677FF",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
