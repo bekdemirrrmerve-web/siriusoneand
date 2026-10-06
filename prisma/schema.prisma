@@ -1,0 +1,137 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  role      String   // user | assistant | system | tool
+  content   String
+  toolName  String?  @map("tool_name")
+  toolData  String?  @map("tool_data") // JSON string
+  mood      String?  // detected mood
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("messages")
+  @@index([createdAt])
+}
+
+model Memory {
+  id           String   @id @default(cuid())
+  type         String   // profile, preferences, people, projects, places, habits, tasks, goals, important_dates, conversation_memory, episodic_memory
+  content      String
+  entities     Json
+  source       String   @default("conversation")
+  confidence   Float    @default(0.8)
+  importance   Int      @default(5) // 1-10
+  lastAccessed DateTime @default(now()) @map("last_accessed")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("memories")
+  @@index([type])
+  @@index([createdAt])
+}
+
+model Task {
+  id                    String    @id @default(cuid())
+  title                 String
+  description           String?
+  dueDate               DateTime? @map("due_date")
+  priority              String    @default("medium") // low, medium, high, urgent
+  category              String    @default("general")
+  status                String    @default("pending") // pending, in_progress, completed, cancelled
+  recurrence            String?   // daily, weekly, monthly, none
+  reminder              DateTime?
+  createdFromConversation Boolean @default(false) @map("created_from_conversation")
+  createdAt             DateTime  @default(now()) @map("created_at")
+  updatedAt             DateTime  @updatedAt @map("updated_at")
+
+  @@map("tasks")
+  @@index([status])
+  @@index([dueDate])
+}
+
+model Event {
+  id          String   @id @default(cuid())
+  title       String
+  description String?
+  startTime   DateTime @map("start_time")
+  endTime     DateTime @map("end_time")
+  location    String?
+  color       String   @default("#6677FF")
+  allDay      Boolean  @default(false) @map("all_day")
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  @@map("events")
+  @@index([startTime])
+}
+
+model Contact {
+  id           String   @id @default(cuid())
+  name         String
+  phone        String?
+  email        String?
+  relationship String?  // anne, baba, eş, arkadaş, iş arkadaşı, kuaför, doktor
+  notes        String?
+  avatar       String?
+  lastContact  DateTime? @map("last_contact")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  calls        Call[]
+
+  @@map("contacts")
+  @@index([name])
+}
+
+model Call {
+  id            String   @id @default(cuid())
+  contactId     String?  @map("contact_id")
+  contact       Contact? @relation(fields: [contactId], references: [id])
+  contactName   String   @map("contact_name")
+  phone         String?
+  direction     String   @default("outgoing") // outgoing, incoming
+  status        String   @default("pending") // pending, in_progress, completed, failed, scheduled
+  callReason    String?  @map("call_reason")
+  aiInstructions String? @map("ai_instructions")
+  transcript    String?
+  summary       String?
+  result        String?  // JSON string with structured result
+  duration      Int?     // seconds
+  scheduledAt   DateTime? @map("scheduled_at")
+  startedAt     DateTime? @map("started_at")
+  endedAt       DateTime? @map("ended_at")
+  createdAt     DateTime @default(now()) @map("created_at")
+
+  @@map("calls")
+  @@index([status])
+  @@index([createdAt])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  title     String
+  body      String
+  type      String   @default("info") // info, reminder, call, task, suggestion
+  read      Boolean  @default(false)
+  actionUrl String?  @map("action_url")
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("notifications")
+  @@index([read])
+  @@index([createdAt])
+}
+
+model Setting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String // JSON string
+
+  @@map("settings")
+}

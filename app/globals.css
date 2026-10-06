@@ -1,0 +1,99 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 225 60% 3%;
+    --foreground: 240 50% 98%;
+    --card: 222 40% 8%;
+    --card-foreground: 240 50% 98%;
+    --popover: 222 40% 8%;
+    --popover-foreground: 240 50% 98%;
+    --primary: 231 100% 70%;
+    --primary-foreground: 0 0% 12%;
+    --secondary: 260 100% 69%;
+    --secondary-foreground: 0 0% 10%;
+    --muted: 222 30% 14%;
+    --muted-foreground: 225 14% 60%;
+    --accent: 205 100% 66%;
+    --accent-foreground: 0 0% 26%;
+    --destructive: 0 82% 71%;
+    --destructive-foreground: 0 0% 20%;
+    --success: 155 60% 60%;
+    --success-foreground: 0 0% 100%;
+    --warning: 35 87% 66%;
+    --warning-foreground: 0 0% 0%;
+    --border: 231 60% 74% / 0.18;
+    --input: 231 60% 74% / 0.18;
+    --ring: 231 100% 70%;
+    --radius: 0.875rem;
+    --radius-sm: 0.5rem;
+    --radius-lg: 1.125rem;
+    --radius-full: 9999px;
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.3);
+    --shadow-md: 0 4px 12px -2px rgb(0 0 0 / 0.4);
+    --shadow-lg: 0 12px 30px -4px rgb(0 0 0 / 0.5);
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 350ms;
+    --chart-1: 231 100% 70%;
+    --chart-2: 155 60% 60%;
+    --chart-3: 35 87% 66%;
+    --chart-4: 260 100% 69%;
+    --chart-5: 205 100% 66%;
+    --sirius-bg-deep: #050812;
+    --sirius-bg-mid: #080D1C;
+    --sirius-bg-light: #0B1020;
+    --sirius-panel: rgba(15, 23, 42, 0.78);
+    --sirius-border: rgba(125, 145, 255, 0.18);
+    --sirius-glow: rgba(102, 119, 255, 0.3);
+    --sirius-glow-secondary: rgba(140, 99, 255, 0.25);
+  }
+}
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  * { border-color: hsl(var(--border)); }
+  body {
+    background-color: var(--sirius-bg-deep);
+    color: hsl(var(--foreground));
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  ::selection {
+    background-color: hsl(var(--primary) / 0.2);
+    color: hsl(var(--primary));
+  }
+  ::-webkit-scrollbar { width: 5px; height: 5px; }
+  ::-webkit-scrollbar-track { background-color: transparent; }
+  ::-webkit-scrollbar-thumb { background-color: rgba(125,145,255,0.2); border-radius: 9999px; }
+  ::-webkit-scrollbar-thumb:hover { background-color: rgba(125,145,255,0.4); }
+}
+
+@layer utilities {
+  .scrollbar-none::-webkit-scrollbar { display: none; }
+  .scrollbar-none { -ms-overflow-style: none; scrollbar-width: none; }
+  .sirius-panel {
+    background: var(--sirius-panel);
+    border: 1px solid var(--sirius-border);
+  }
+  .sirius-glow {
+    box-shadow: 0 0 20px var(--sirius-glow), 0 0 60px var(--sirius-glow-secondary);
+  }
+  .sirius-glow-text {
+    text-shadow: 0 0 20px var(--sirius-glow);
+  }
+  .sirius-gradient-bg {
+    background: linear-gradient(180deg, var(--sirius-bg-deep) 0%, var(--sirius-bg-mid) 50%, var(--sirius-bg-light) 100%);
+  }
+}
